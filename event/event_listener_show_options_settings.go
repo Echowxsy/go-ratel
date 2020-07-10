@@ -7,16 +7,16 @@ import (
 )
 
 func ListenerShowOptionsSettings(ctx *Context, data string) {
-	command.PrintNotice("Setting: ")
+	command.PrintNotice("设置: ")
 	command.PrintNotice("1. Card with shape edges (Default)")
 	command.PrintNotice("2. Card with rounded edges")
 	command.PrintNotice("3. Text Only with types")
 	command.PrintNotice("4. Text Only without types")
 	command.PrintNotice("5. Unicode Cards")
 
-	command.PrintNotice("Please enter the number of setting (enter [BACK] return options list)")
+	command.PrintNotice("Please enter the number of setting (enter [BACK|B] return options list)")
 	line := command.DeletePreAndSufSpace(command.Write("setting"))
-	if strings.ToUpper(line) == "BACK" {
+	if strings.ToUpper(line) == "BACK"||strings.ToUpper(line) == "B" {
 		ListenerShowOptions(ctx, data)
 	} else {
 		choose, e := strconv.Atoi(line)

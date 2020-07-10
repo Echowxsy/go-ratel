@@ -3,6 +3,6 @@ package event
 import "go-ratel/command"
 
 func ListenerClientKick(ctx *Context, data string) {
-	command.PrintNotice("As a result of long time do not operate, be forced by the system to kick out of the room\n")
+	command.PrintNotice("\033[31m长时间未操作，踢出房间。\033[0m\n")
 	ListenerShowOptions(ctx, data)
 }

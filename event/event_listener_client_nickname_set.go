@@ -10,11 +10,11 @@ func ListenerClientNicknameSet(ctx *Context, data string) {
 	if data == "" {
 		dataMap := make(map[string]interface{})
 		if dataMap["invalidLength"] != nil {
-			command.PrintNotice("Your nickname length was invalid: " + strconv.Itoa(dataMap["invalidLength"].(int)))
+			command.PrintNotice("你的昵称长度: " + strconv.Itoa(dataMap["invalidLength"].(int))+" ，太长了。")
 		}
 	}
 
-	command.PrintNotice("Please set your nickname (upto " + strconv.Itoa(NICKNAME_MAX_LENGTH) + " characters)")
+	command.PrintNotice("请设置你的昵称（最大长度为：" + strconv.Itoa(NICKNAME_MAX_LENGTH) + " 个字符）")
 	nickname := command.DeletePreAndSufSpace(command.Write("nickname"))
 	if len(nickname) > NICKNAME_MAX_LENGTH {
 		result := make(map[string]interface{})

@@ -12,10 +12,10 @@ func ListenerGameLandlordElect(ctx *Context, data string) {
 	turnClientId := int(dataMap["nextClientId"].(float64))
 
 	if dataMap["preClientNickname"] != nil {
-		command.PrintNotice(dataMap["preClientNickname"].(string) + " don't rob the landlord!")
+		command.PrintNotice(dataMap["preClientNickname"].(string) + " 不叫地主！")
 	}
 	if turnClientId == ctx.UserId {
-		command.PrintNotice("It's your turn. Do you want to rob the landlord? [Y/N] (enter [EXIT] to exit current room)")
+		command.PrintNotice("\033[32m现在的你的回合，你要叫地主吗？[Y/N] 叫/不叫（[EXIT]退出房间)\033[0m")
 		line := strings.ToUpper(command.DeletePreAndSufSpace(command.Write("Y/N")))
 		switch line {
 		case "EXIT":
@@ -25,10 +25,10 @@ func ListenerGameLandlordElect(ctx *Context, data string) {
 		case "N":
 			ctx.pushToServer(CODE_GAME_LANDLORD_ELECT, "FALSE")
 		default:
-			command.PrintNotice("Invalid options")
+			command.PrintNotice("\033[31m错误的输入\033[0m")
 			ListenerGameLandlordElect(ctx, data)
 		}
 	} else {
-		command.PrintNotice("It's " + dataMap["nextClientNickname"].(string) + "'s turn. Please wait patiently for his/her confirmation !")
+		command.PrintNotice("现在是 " + dataMap["nextClientNickname"].(string) + " 的回合，请等待。")
 	}
 }

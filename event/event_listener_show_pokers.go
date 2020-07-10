@@ -12,7 +12,13 @@ func ListenerShowPokers(ctx *Context, data string) {
 	ctx.LastSellClientNickname = dataMap["clientNickname"].(string)
 	ctx.LastSellClientType = dataMap["clientType"].(string)
 
-	command.PrintNotice(ctx.LastSellClientNickname + "[" + ctx.LastSellClientType + "] played:")
+	var roleString string
+	if (ctx.LastSellClientType=="PEASANT") {
+		roleString = "农民"
+	} else {
+		roleString = "地主"
+	}
+	command.PrintNotice(ctx.LastSellClientNickname + "[" + roleString + "] 出了：")
 
 	pokers := make([]Poker, 0)
 	pokersBytes, _ := json.Marshal(dataMap["pokers"])
@@ -20,6 +26,6 @@ func ListenerShowPokers(ctx *Context, data string) {
 	command.PrintPokers(pokers, ctx.PokerPrinterType)
 
 	if dataMap["sellClinetNickname"] != nil {
-		command.PrintNotice("Next player is " + dataMap["sellClinetNickname"].(string) + ". Please wait for him to play his pokers.")
+		command.PrintNotice("下一个出牌的人是 " + dataMap["sellClinetNickname"].(string) + "，请等 TA 出牌。")
 	}
 }

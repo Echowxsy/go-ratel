@@ -11,10 +11,10 @@ func ListenerShowOptionsPVE(ctx *Context, data string) {
 	command.PrintNotice("1. Simple Model")
 	command.PrintNotice("2. Medium Model")
 	command.PrintNotice("3. Difficulty Model")
-	command.PrintNotice("Please enter the number of options (enter [BACK] return options list)")
+	command.PrintNotice("输入序号进入相应菜单或输入[BACK|B]返回上级菜单")
 
 	line := command.Write("pve")
-	if strings.ToUpper(line) == "BACK" {
+	if strings.ToUpper(line) == "BACK"||strings.ToUpper(line) == "B" {
 		ListenerShowOptions(ctx, data)
 	} else {
 		choose, e := strconv.Atoi(line)

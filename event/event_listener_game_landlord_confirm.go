@@ -10,7 +10,7 @@ func ListenerGameLandlordConfirm(ctx *Context, data string) {
 	_ = json.Unmarshal([]byte(data), &dataMap)
 
 	landlordNickname := dataMap["landlordNickname"].(string)
-	command.PrintNotice(landlordNickname + " grabbed the landlord and got extra three poker shots")
+	command.PrintNotice(landlordNickname + " 叫地主，获得额外的三张牌：")
 
 	// 序列化
 	additionalPokers := make([]Poker, 0)

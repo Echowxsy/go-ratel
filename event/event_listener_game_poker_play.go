@@ -10,20 +10,21 @@ func ListenerGamePokerPlay(ctx *Context, data string) {
 	dataMap := make(map[string]interface{})
 	_ = json.Unmarshal([]byte(data), &dataMap)
 
-	command.PrintNotice("It's your turn to play, your pokers are as follows: ")
+	command.PrintNotice("\033[32m现在是你出牌的时候，你的牌是：\033[0m")
+
 
 	pokers := make([]Poker, 0)
 	pokersBytes, _ := json.Marshal(dataMap["pokers"])
 	_ = json.Unmarshal([]byte(pokersBytes), &pokers)
 	command.PrintPokers(pokers, ctx.PokerPrinterType)
 
-	command.PrintNotice("Please enter the card you came up with (enter [EXIT] to exit current room, enter [PASS] to jump current round)")
+	command.PrintNotice("\033[32m输入你要出的牌([EXIT]退出房间｜[PASS|P]不出牌｜[0]牌10｜[S]小王｜[X]大王)\033[0m")
 	line := command.DeletePreAndSufSpace(command.Write("card"))
 	if line == "" {
-		command.PrintNotice("Invalid enter")
+		command.PrintNotice("\033[31m错误的输入\033[0m")
 		ListenerGamePokerPlay(ctx, data)
 	} else {
-		if strings.ToUpper(line) == "PASS" {
+		if strings.ToUpper(line) == "PASS" || strings.ToUpper(line) == "P"{
 			ctx.pushToServer(SERVER_CODE_GAME_POKER_PLAY_PASS, "")
 		} else if strings.ToUpper(line) == "EXIT" {
 			ctx.pushToServer(SERVER_CODE_CLIENT_EXIT, "")
@@ -49,11 +50,18 @@ func ListenerGamePokerPlay(ctx *Context, data string) {
 				bytes, _ := json.Marshal(&options)
 				ctx.pushToServer(SERVER_CODE_GAME_POKER_PLAY, string(bytes))
 			} else {
-				command.PrintNotice("Invalid enter")
+				command.PrintNotice("\033[31m错误的输入\033[0m")
+				var roleString string
+				if (ctx.LastSellClientType=="PEASANT") {
+					roleString = "农民"
+				} else {
+					roleString = "地主"
+				}
 				if ctx.LastPokers != nil {
-					command.PrintNotice(ctx.LastSellClientNickname + "[" + ctx.LastSellClientType + "] playd:")
+					command.PrintNotice(ctx.LastSellClientNickname + "[" + roleString + "] playd:")
 					command.PrintPokers(*ctx.LastPokers, ctx.PokerPrinterType)
 				}
+				ListenerGamePokerPlay(ctx, data)
 			}
 		}
 	}

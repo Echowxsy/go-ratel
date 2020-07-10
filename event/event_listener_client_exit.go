@@ -16,6 +16,6 @@ func ListenerClientExit(ctx *Context, data string) {
 	} else {
 		role = dataMap["exitClientNickname"].(string)
 	}
-	command.PrintNotice(role + " exit from the room. Room disbanded!!\n")
+	command.PrintNotice(role + " 退出房间，房间关闭。\n")
 	ListenerShowOptions(ctx, data)
 }

@@ -6,6 +6,6 @@ import (
 )
 
 func ListenerClientConnect(ctx *Context, data string) {
-	command.PrintNotice("Connection to server is successful. Welcome to ratel!!")
+	command.PrintNotice("链接服务器成功，欢迎进入Ratel！")
 	ctx.UserId, _ = strconv.Atoi(data)
 }

@@ -12,6 +12,6 @@ func ListenerRoomCreateSuccess(ctx *Context, data string) {
 
 	ctx.InitLastSellInfo()
 
-	command.PrintNotice("You have created a room with id " + strconv.Itoa(room.Id))
-	command.PrintNotice("Please wait for other players to join !")
+	command.PrintNotice("你创建的房间ID为： " + strconv.Itoa(room.Id))
+	command.PrintNotice("请等待其他玩家加入！")
 }

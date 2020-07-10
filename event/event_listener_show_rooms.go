@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-ratel/command"
 	"strconv"
+	"strings"
 )
 
 func ListenerShowRooms(ctx *Context, data string) {
@@ -18,9 +19,24 @@ func ListenerShowRooms(ctx *Context, data string) {
 			command.PrintNotice(fmt.Sprintf(format, strconv.Itoa(int(room["roomId"].(float64))), room["roomOwner"].(string), strconv.Itoa(int(room["roomClientCount"].(float64))), room["roomType"].(string)))
 		}
 		command.PrintNotice("")
-		ListenerShowOptionsPVP(ctx, data)
+		command.PrintNotice("输入房间ID加入房间或输入[BACK|B]返回上级菜单：")
+		line := command.DeletePreAndSufSpace(command.Write("房间ID"))
+		if strings.ToUpper(line) == "BACK"||strings.ToUpper(line) == "B" {
+			ListenerShowOptionsPVP(ctx, data)
+		} else {
+			roomid, e := strconv.Atoi(line)
+			if e != nil {
+				roomid = -1
+			}
+			if roomid < 1 {
+				command.PrintNotice("\033[31m错误的输入，请重新输入：\033[0m")
+				ListenerShowOptionsPVP(ctx, data)
+			} else {
+				ctx.pushToServer(SERVER_CODE_ROOM_JOIN, strconv.Itoa(roomid))
+			}
+		}
 	} else {
-		command.PrintNotice("No available room, please create a room ！")
+		command.PrintNotice("没有可以加入的房间，请创建一个房间！")
 		ListenerShowOptionsPVP(ctx, data)
 	}
 }

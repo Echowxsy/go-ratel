@@ -9,7 +9,8 @@ import (
 )
 
 var choose = [...]string{"UP", "DOWN"}
-var format = "\n[%-4s] %-" + strconv.Itoa(NICKNAME_MAX_LENGTH) + "s  surplus %-2s [%-8s]"
+var positionString = [...]string{"上家", "下家"}
+var format = "\n[%-2s] %-" + strconv.Itoa(NICKNAME_MAX_LENGTH) + "s [%-2s] 剩余牌数： %-2s"
 
 func ListenerGamePokerPlayRedirect(ctx *Context, data string) {
 	dataMap := make(map[string]interface{})
@@ -25,7 +26,13 @@ func ListenerGamePokerPlayRedirect(ctx *Context, data string) {
 		for _, clientInfo := range clientInfos {
 			position := clientInfo["position"].(string)
 			if strings.ToUpper(position) == strings.ToUpper(choose[index]) {
-				command.PrintNotice(fmt.Sprintf(format, clientInfo["position"].(string), clientInfo["clientNickname"].(string), strconv.Itoa(int(clientInfo["surplus"].(float64))), clientInfo["type"].(string)))
+				var roleString string
+				if ( clientInfo["type"].(string)=="PEASANT") {
+					roleString = "农民"
+				} else {
+					roleString = "地主"
+				}
+				command.PrintNotice(fmt.Sprintf(format, positionString[index], clientInfo["clientNickname"].(string),roleString, strconv.Itoa(int(clientInfo["surplus"].(float64)))))
 			}
 		}
 	}
@@ -33,6 +40,6 @@ func ListenerGamePokerPlayRedirect(ctx *Context, data string) {
 	if sellClientId == ctx.UserId {
 		ListenerGamePokerPlay(ctx, data)
 	} else {
-		command.PrintNotice("Next player is " + dataMap["sellClinetNickname"].(string) + ". Please wait for him to play his cards.")
+		command.PrintNotice("现在出牌等人是玩家是 " + dataMap["sellClinetNickname"].(string) + " ，请等 TA 出牌。")
 	}
 }

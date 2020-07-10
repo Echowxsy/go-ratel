@@ -8,13 +8,13 @@ import (
 )
 
 func ListenerShowOptions(ctx *Context, data string) {
-	command.PrintNotice("Options: ")
-	command.PrintNotice("1. PvP")
-	command.PrintNotice("2. PvE")
-	command.PrintNotice("3. Setting")
-	command.PrintNotice("Please enter the number of options (enter [EXIT] log out)")
+	command.PrintNotice("选项: ")
+	command.PrintNotice("1. 对战")
+	command.PrintNotice("2. 人机")
+	command.PrintNotice("3. 设置")
+	command.PrintNotice("输入序号进入相应的选项（[EXIT]退出）")
 
-	line := strings.ToUpper(command.DeletePreAndSufSpace(command.Write("options")))
+	line := strings.ToUpper(command.DeletePreAndSufSpace(command.Write("选项")))
 	if line == "EXIT" {
 		os.Exit(0)
 	} else {
@@ -30,7 +30,7 @@ func ListenerShowOptions(ctx *Context, data string) {
 		case 3:
 			ListenerShowOptionsSettings(ctx, data)
 		default:
-			command.PrintNotice("Invalid option, please choose again：")
+			command.PrintNotice("错误的选项，请重新输入：")
 			ListenerShowOptions(ctx, data)
 		}
 	}

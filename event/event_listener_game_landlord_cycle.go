@@ -3,5 +3,5 @@ package event
 import "go-ratel/command"
 
 func ListenerGameLandlordCycle(ctx *Context, data string) {
-	command.PrintNotice("No player takes the landlord, so redealing cards.")
+	command.PrintNotice("没有人叫地主，重新发牌。")
 }
